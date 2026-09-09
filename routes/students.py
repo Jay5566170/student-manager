@@ -1,3 +1,4 @@
+import importlib
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -5,6 +6,13 @@ from typing import List
 from database import get_db
 from models import Student
 from schemas import StudentCreate, StudentUpdate, StudentResponse
+
+try:
+    auth_module = importlib.import_module("routes.auth")
+    get_current_user = auth_module.get_current_user
+except ModuleNotFoundError:
+    def get_current_user():
+        return None
 
 router = APIRouter(prefix="/students", tags=["students"])
 
