@@ -1,5 +1,7 @@
-from pydantic import BaseModel
 from typing import Optional
+
+from pydantic import BaseModel, ConfigDict
+
 
 class StudentCreate(BaseModel):
     name: str
@@ -7,11 +9,13 @@ class StudentCreate(BaseModel):
     city: str
     email: Optional[str] = None
 
+
 class StudentUpdate(BaseModel):
     name: Optional[str] = None
     age: Optional[int] = None
     city: Optional[str] = None
     email: Optional[str] = None
+
 
 class StudentResponse(BaseModel):
     id: int
@@ -19,6 +23,5 @@ class StudentResponse(BaseModel):
     age: int
     city: str
     email: Optional[str]
-    
-    class Config:
-        orm_mode = True
+
+    model_config = ConfigDict(from_attributes=True)
